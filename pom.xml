@@ -79,4 +79,20 @@
         </plugins>
     </build>
 
+    <scm>
+        <connection>scm:git:git://github.com/algesten/karlkajal.git</connection>
+        <developerConnection>scm:git:git@github.com:algesten/karlkajal.git</developerConnection>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>algesten-github-repo</id>
+            <url>file://${basedir}/target</url>
+        </repository>
+        <snapshotRepository>
+            <id>algesten-github-repo</id>
+            <url>file://${basedir}/target</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>
