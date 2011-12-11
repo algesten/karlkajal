@@ -2,7 +2,8 @@ http = require 'http'
 fs = require 'fs'
 path = require 'path'
 mime = require 'mime'
-reed = require 'reed'
+
+reed = require './reed'
 
 port = process.env.PORT || 3000
 
