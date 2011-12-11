@@ -2,8 +2,16 @@ http = require 'http'
 fs = require 'fs'
 path = require 'path'
 mime = require 'mime'
+reed = require 'reed'
 
 port = process.env.PORT || 3000
+
+reedcontent = (callback) ->
+    reed.all (error, posts) ->
+      callback posts.sort (a,b) ->
+        aid = a.metadata.id
+        bid = b.metadata.id
+        if aid < bid then -1 else if aid == bid then 0 else 1
 
 server = (request, response) ->
 
@@ -44,16 +52,46 @@ server = (request, response) ->
             if err2
               response.writeHead(500)
             else
-              response.writeHead(200,{
-                'Content-Type': contentType,
-                'Content-Length': content.length,
-                'Date': (new Date()),
-                'Expires': (new Date(Date.now() + 600 * 1000)),
-                'Cache-Control':  'public, max-age=600',
-                'Last-Modified':  stat.mtime
-              })
-            response.end(content)
 
-http.createServer(server).listen(port)
+              send = (toSend, mtime) ->
+                response.writeHead(200,{
+                  'Content-Type': contentType,
+                  'Content-Length': toSend.length,
+                  'Date': (new Date()),
+                  'Expires': (new Date(Date.now() + 600 * 1000)),
+                  'Cache-Control':  'public, max-age=600',
+                  'Last-Modified':  stat.mtime
+                })
+                response.end(content)
+
+              if filePath == './index.html'
+                reedcontent (posts) ->
+                  section = []
+                  mtime = 0
+                  append = (post) ->
+                    section.push '<section id=' + post.metadata.id+'>'
+                    swe = post.htmlContent.indexOf('<h2')
+                    eng = post.htmlContent.indexOf('<h2', swe + 1);
+                    section.push '<div class="swe">'
+                    section.push post.htmlContent.substring swe, eng
+                    section.push '</div>'
+                    section.push '<div class="eng">'
+                    section.push post.htmlContent.substring eng
+                    section.push '</div>'
+                    section.push '</section>'
+                    mtime = post.metadata.lastModified if post.metadata.lastModified > mtime
+                  append post for post in posts
+                  sections = section.join ''
+                  content = content.toString 'utf-8'
+                  content = content.replace '%SECTIONS%', sections
+                  content = new Buffer(content, 'utf-8')
+                  send content, mtime
+              else
+                send content, mtime
+
+reed.on "ready", () ->
+  http.createServer(server).listen(port)
+
+reed.open './posts'
 
 console.log 'Listening to: '+port

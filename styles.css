@@ -75,10 +75,10 @@ abbr, acronym {
     font-family: AdobeGaramondProSml, Georgia, "Times New Roman", serif;
     text-transform: lowercase;
 }
-.dialogue {
+blockquote {
     margin-left: 1.5em;
 }
-.dialogue abbr {
+blockquote abbr {
     float: left;
     margin-left: -1.5em;
     text-transform: none;
