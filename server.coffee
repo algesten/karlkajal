@@ -3,23 +3,31 @@ fs = require 'fs'
 path = require 'path'
 mime = require 'mime'
 
-serv = (request, response) ->
+port = process.env.PORT || 3000
+
+server = (request, response) ->
 
   filePath = '.' + request.url
   filePath = './index.html' if filePath == './'
 
   extname = path.extname filePath
 
-  output = (exists) ->
+  path.exists filePath, (exists) ->
 
-    if exists
+    if !exists
+
+      response.writeHead(404)
+      response.end()
+
+    else
+
       contentType = mime.lookup extname
       contentType += ';charset=UTF-8' if contentType.indexOf('text/') == 0
 
-      statFile = (error, stat) ->
+      fs.stat filePath, (err1, stat) ->
 
         mtime = stat.mtime
-        mtime = new Date(stat.mtime) if mtime;
+        mtime = new Date(stat.mtime) if mtime
 
         ifmodified = request.headers['if-modified-since']
         ifmodified = new Date(ifmodified) if ifmodified
@@ -31,9 +39,9 @@ serv = (request, response) ->
 
         else
 
-          sendfile = (error, content) ->
+          fs.readFile filePath, (err2, content) ->
 
-            if error
+            if err2
               response.writeHead(500)
             else
               response.writeHead(200,{
@@ -46,17 +54,6 @@ serv = (request, response) ->
               })
             response.end(content)
 
-          fs.readFile(filePath, sendfile)
-
-      fs.stat(filePath, statFile)
-
-    else
-      response.writeHead(404)
-      response.end()
-
-  path.exists(filePath,output)
-
-port = process.env.PORT || 3000;
-http.createServer(serv).listen(port)
+http.createServer(server).listen(port)
 
 console.log 'Listening to: '+port
