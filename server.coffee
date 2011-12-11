@@ -4,6 +4,9 @@ path = require 'path'
 mime = require 'mime'
 reed = require 'reed'
 
+# not sure why we need this, reed fails without
+require 'JSON'
+
 port = process.env.PORT || 3000
 
 reedcontent = (callback) ->

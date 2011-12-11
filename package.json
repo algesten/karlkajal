@@ -4,6 +4,7 @@
   "dependencies": {
     "coffee-script": "1.1.3",
     "mime": "1.2.4",
-    "reed": "0.9.5-1"
+    "reed": "0.9.5-1",
+    "JSON": "1.0.0"
   }
 }
