@@ -593,10 +593,14 @@ reed.open = function(directory) {
 
 	dir = directory;
 
-  console.log(process.env.REDISTOGO_URL);
+  // redis://redistogo:26f53a7c477bab80aa02625491dafc03@barracuda.redistogo.com:9060/
+  var togo = process.env.REDISTOGO_URL;
+  var parts = (/redis:[^:]+:([^@]+)@([^:]+):([^/]+)/i).exec(togo);
 
-	client = redis.createClient(port, options);
+	client = redis.createClient(parts[3], parts[2]);
 	
+  client.auth(parts[1], function () {
+
 	fs.watchFile(dir, function(curr, prev) {
 		findNewFiles();
 	});
@@ -606,6 +610,9 @@ reed.open = function(directory) {
 	process.nextTick(function() {
 		findNewFiles(true);
 	});
+
+  });
+
 }
 
 reed.close = function() {
