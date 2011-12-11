@@ -593,7 +593,7 @@ reed.open = function(directory) {
 
 	dir = directory;
 
-  console.log process.env.REDISTOGO_URL
+  console.log(process.env.REDISTOGO_URL);
 
 	client = redis.createClient(port, options);
 	
