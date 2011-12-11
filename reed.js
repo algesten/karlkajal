@@ -375,6 +375,7 @@ reed.getMetadata = function(title, callback) {
 		
 	//first hit redis
 	client.hget(key, "metadata", function(err, metadata) {
+    console.log(metadata);
 		metadata = JSON.parse(metadata);
 		if (typeof(metadata) !== "undefined" && metadata != null && Object.keys(metadata).length > 0) {
 			if (typeof callback !== "undefined")
