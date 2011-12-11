@@ -592,7 +592,10 @@ reed.open = function(directory) {
 	}
 
 	dir = directory;
-	client = redis.createClient();
+
+  console.log process.env.REDISTOGO_URL
+
+	client = redis.createClient(port, options);
 	
 	fs.watchFile(dir, function(curr, prev) {
 		findNewFiles();
