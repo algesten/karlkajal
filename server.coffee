@@ -2,6 +2,9 @@
 root = exports ? this
 root.JSON = require 'JSON'
 
+console.log exports
+console.log JSON
+
 http = require 'http'
 fs = require 'fs'
 path = require 'path'
