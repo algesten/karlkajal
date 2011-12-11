@@ -3,7 +3,8 @@ fs = require 'fs'
 path = require 'path'
 mime = require 'mime'
 
-reed = require './reed'
+# we have a modded reed for redis to go
+reed = require './lib/reed'
 
 port = process.env.PORT || 3000
 
