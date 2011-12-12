@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+  
+  <title>Dagbok | Diary</title>
+  <subtitle>Karl Kajal</subtitle>
+  <link href="http://kajal.algesten.se/feed.xml" rel="self" />
+  <link href="http://kajal.algesten.se/" />
+  <id>urn:uuid:afb02087-643c-46bb-b4cd-53537ada2008</id>
+  <updated>%UPDATED%</updated>
+  <author>
+    <name>Karl Kajal</name>
+  </author>
+  
+  %ENTRIES%
+
+</feed>

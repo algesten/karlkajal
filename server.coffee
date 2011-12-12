@@ -4,6 +4,9 @@ path = require 'path'
 mime = require 'mime'
 url = require 'url'
 
+indexPage = require './index-page'
+feedPage = require './feed-page'
+
 # we have a modded reed for redis to go
 reed = require './lib/reed'
 
@@ -69,25 +72,11 @@ server = (request, response) ->
 
               if filePath == './index.html'
                 reedcontent (posts) ->
-                  section = []
-                  mtime = 0
-                  append = (post) ->
-                    section.push '<section id=' + post.metadata.id+'>'
-                    swe = post.htmlContent.indexOf('<h2')
-                    eng = post.htmlContent.indexOf('<h2', swe + 1);
-                    section.push '<div class="swe">'
-                    section.push post.htmlContent.substring swe, eng
-                    section.push '</div>'
-                    section.push '<div class="eng">'
-                    section.push post.htmlContent.substring eng
-                    section.push '</div>'
-                    section.push '</section>'
-                    mtime = post.metadata.lastModified if post.metadata.lastModified > mtime
-                  append post for post in posts
-                  sections = section.join ''
-                  content = content.toString 'utf-8'
-                  content = content.replace '%SECTIONS%', sections
-                  content = new Buffer(content, 'utf-8')
+                  [content, mtime] = indexPage.sections posts, content
+                  send content, mtime
+              else if filePath == './feed.xml'
+                reedcontent (posts) ->
+                  [content, mtime] = feedPage.sections posts, content
                   send content, mtime
               else
                 send content, mtime
