@@ -2,6 +2,7 @@ http = require 'http'
 fs = require 'fs'
 path = require 'path'
 mime = require 'mime'
+url = require 'url'
 
 # we have a modded reed for redis to go
 reed = require './lib/reed'
@@ -94,7 +95,14 @@ server = (request, response) ->
 reed.on "ready", () ->
   http.createServer(server).listen(port)
 
-reed.redisUrl = process.env.REDISTOGO_URL
+if process.env.REDISTOGO_URL
+  parsed = url.parse(process.env.REDISTOGO_URL);
+  reed.configure {
+    host: parsed.hostname
+    port: parsed.port
+    password: parsed.auth.split(':')[1]
+  }
+
 reed.open './posts'
 
 console.log 'Listening to: '+port

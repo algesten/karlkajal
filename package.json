@@ -6,7 +6,6 @@
     "mime": "1.2.4",
 
     "redis": "",
-    "redis-url": "",
     "node-markdown": "",
     "async": ""
 
