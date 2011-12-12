@@ -23,7 +23,7 @@ module.exports.sections = (posts, content) ->
     entries.push ' | '
     entries.push post.htmlContent.substring eng1, eng2
     entries.push '</title>\n'
-    entries.push '<link href="http://kaja.algesten.se/index.html#" />\n'
+    entries.push '<link href="http://kajal.algesten.se/index.html#' + post.metadata.id + '" />\n'
     entries.push '<id>urn:uuid:' + id + '</id>\n'
     entries.push '<updated>' + (dateformat lastModified, "isoDateTime") + '</updated>\n'
     entries.push '</entry>\n\n'
