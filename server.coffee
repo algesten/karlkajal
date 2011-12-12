@@ -3,12 +3,10 @@ fs = require 'fs'
 path = require 'path'
 mime = require 'mime'
 url = require 'url'
+reed = require 'reed'
 
 indexPage = require './index-page'
 feedPage = require './feed-page'
-
-# we have a modded reed for redis to go
-reed = require './lib/reed'
 
 port = process.env.PORT || 3000
 
