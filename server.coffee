@@ -94,6 +94,7 @@ server = (request, response) ->
 reed.on "ready", () ->
   http.createServer(server).listen(port)
 
+reed.redisUrl = process.env.REDISTOGO_URL
 reed.open './posts'
 
 console.log 'Listening to: '+port
