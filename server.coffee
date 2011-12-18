@@ -12,6 +12,16 @@ port = process.env.PORT || 3000
 
 reedcontent = (callback) ->
     reed.all (error, posts) ->
+
+      for post in posts
+        do (post) ->
+          parts = (/(\d{4})(\d{2})(\d{2})/).exec(post.metadata.id);
+          date = new Date(0);
+          date.setUTCFullYear(parts[1]);
+          date.setUTCMonth(parts[2] - 1);
+          date.setUTCDate(parts[3]);
+          post.metadata.date = date;
+
       callback posts.sort (a,b) ->
         aid = a.metadata.id
         bid = b.metadata.id
