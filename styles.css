@@ -40,11 +40,17 @@ section > div {
 .eng {
     float: right;
 }
+#h1wrap {
+    height: 14em;
+    position: relative;
+}
 h1 {
+    position: absolute;
+    bottom: -1.6em;
+    left: 50%;
+    margin-left: -1.97em;
     font-family: AmbassadorScript;
     font-size: 7em;
-    text-align: center;
-    margin: 0 0 -0.95em 0;
     padding: 0.2em 0 0 0;
     font-weight: normal;
 }
